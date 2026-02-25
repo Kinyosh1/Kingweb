@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King Ye · AI Builder</title>
+<style>
+  :root {
+    --cyan: #00f5ff;
+    --purple: #bf00ff;
+    --bg: #020c1a;
+    --card-bg: rgba(255,255,255,0.04);
+    --border: rgba(0,245,255,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: #e0e0e0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  #vanta-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,245,255,0.3);
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+  }
+
+  .avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,245,255,0.3);
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 1.5rem;
+  }
+
+  .hero-name {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--cyan), var(--purple), var(--cyan));
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s linear infinite, glitch 8s infinite;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-subtitle {
+    margin-top: 0.75rem;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: rgba(0,245,255,0.7);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .hero-contacts {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .contact-badge {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    font-size: 0.85rem;
+    color: var(--cyan);
+    transition: all 0.3s;
+    cursor: default;
+  }
+
+  .contact-badge:hover {
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px rgba(0,245,255,0.4);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  .title-cyan { color: var(--cyan); }
+  .title-purple { color: var(--purple); }
+
+  /* ── CARDS ── */
+  .cards-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .grid-4 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .grid-2 { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .grid-1 { grid-template-columns: 1fr; max-width: 400px; }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 32px rgba(0,245,255,0.25), 0 0 0 1px rgba(0,245,255,0.4);
+    border-color: rgba(0,245,255,0.5);
+  }
+
+  .card-purple:hover {
+    box-shadow: 0 8px 32px rgba(191,0,255,0.25), 0 0 0 1px rgba(191,0,255,0.4);
+    border-color: rgba(191,0,255,0.5);
+  }
+
+  .card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.4rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+
+  /* ── VIDEOS ── */
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 600px) {
+    .videos-grid { grid-template-columns: 1fr; }
+  }
+
+  .video-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(191,0,255,0.2);
+  }
+
+  .video-card iframe {
+    width: 100%;
+    height: 180px;
+    border: none;
+    display: block;
+  }
+
+  .video-label {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    border-top: 1px solid var(--border);
+    color: rgba(255,255,255,0.3);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+
+  footer span { color: var(--cyan); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes gradientShift {
+    0% { background-position: 0% }
+    100% { background-position: 200% }
+  }
+
+  @keyframes glitch {
+    0%, 94%, 100% { text-shadow: none; }
+    95% { text-shadow: -2px 0 var(--purple), 2px 0 var(--cyan); }
+    96% { text-shadow: 2px 0 var(--purple), -2px 0 var(--cyan); }
+    97% { text-shadow: none; }
+    98% { text-shadow: -1px 0 var(--cyan); }
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.3); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div id="hero">
+  <div id="vanta-bg"></div>
+  <div class="hero-content">
+    <div id="avatar-container"></div>
+    <h1 class="hero-name" id="hero-name"></h1>
+    <p class="hero-subtitle" id="hero-subtitle"></p>
+    <div class="hero-contacts" id="hero-contacts"></div>
+  </div>
+</div>
+
+<!-- AI GAMES -->
+<section>
+  <h2 class="section-title title-cyan">🎮 AI 游戏</h2>
+  <div class="cards-grid grid-4" id="games-grid"></div>
+</section>
+
+<!-- AI APPS -->
+<section>
+  <h2 class="section-title title-purple">🤖 AI 应用</h2>
+  <div class="cards-grid grid-2" id="apps-grid"></div>
+</section>
+
+<!-- BILIBILI VIDEOS -->
+<section>
+  <h2 class="section-title title-cyan">📺 B站视频</h2>
+  <div class="videos-grid" id="videos-grid"></div>
+</section>
+
+<!-- AI ANIMATIONS -->
+<section>
+  <h2 class="section-title title-purple">🎨 AI 动画</h2>
+  <div class="cards-grid grid-1" id="animations-grid"></div>
+</section>
+
+<footer>
+  <p>Built with <span>AI</span> · <span id="footer-name"></span> © 2026</p>
+</footer>
+
+<!-- Scripts -->
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+<script>
+  // Init Vanta background
+  VANTA.BIRDS({
+    el: "#vanta-bg",
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: false,
+    minHeight: 200.00,
+    minWidth: 200.00,
+    scale: 1.00,
+    scaleMobile: 1.00,
+    backgroundColor: 0x020c1a,
+    color1: 0x0a1f35,
+    color2: 0x051020,
+    colorMode: "variance",
+    birdSize: 2.2,
+    wingSpan: 42.00,
+    speedLimit: 3.00,
+    separation: 80.00,
+    alignment: 50.00,
+    cohesion: 20.00,
+    quantity: 2.00
+  });
+
+  // Render hero
+  const h = SITE_CONFIG.hero;
+  document.getElementById('hero-name').textContent = h.name;
+  document.getElementById('hero-subtitle').textContent = h.subtitle;
+  document.getElementById('footer-name').textContent = h.name;
+
+  const avatarContainer = document.getElementById('avatar-container');
+  const img = new Image();
+  img.onload = () => {
+    img.className = 'avatar';
+    avatarContainer.appendChild(img);
+  };
+  img.onerror = () => {
+    avatarContainer.innerHTML = '<div class="avatar-placeholder">👤</div>';
+  };
+  img.src = h.avatar;
+
+  const contacts = document.getElementById('hero-contacts');
+  if (h.wechat) contacts.innerHTML += `<div class="contact-badge">💬 微信：${h.wechat}</div>`;
+  if (h.email)  contacts.innerHTML += `<div class="contact-badge">📧 ${h.email}</div>`;
+
+  // Render cards helper
+  function renderCards(containerId, items, colorClass = '') {
+    const el = document.getElementById(containerId);
+    el.innerHTML = items.map(item => `
+      <a class="card ${colorClass}" href="${item.url}" target="_blank" rel="noopener">
+        <div class="card-icon">${item.icon}</div>
+        <div class="card-title">${item.title}</div>
+        <div class="card-subtitle">${item.subtitle}</div>
+      </a>
+    `).join('');
+  }
+
+  renderCards('games-grid', SITE_CONFIG.games);
+  renderCards('apps-grid', SITE_CONFIG.apps, 'card-purple');
+  renderCards('animations-grid', SITE_CONFIG.animations, 'card-purple');
+
+  // Render videos
+  const videosGrid = document.getElementById('videos-grid');
+  videosGrid.innerHTML = SITE_CONFIG.videos.map(v => `
+    <div class="video-card">
+      <iframe
+        src="https://player.bilibili.com/player.html?bvid=${v.bvid}&page=1&high_quality=1&danmaku=0&autoplay=0"
+        scrolling="no"
+        allowfullscreen="true"
+        allow="fullscreen"
+        referrerpolicy="no-referrer">
+      </iframe>
+      <div class="video-label">${v.title}</div>
+    </div>
+  `).join('');
+</script>
+</body>
+</html>
